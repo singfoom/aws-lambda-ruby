@@ -82,20 +82,20 @@ invoke: ## Invokes the AWS Lambda in the command line
 
 create-rds-instance: ## Creates an RDS MySQL DB instance
 	aws rds create-db-instance \
-		--db-instance-identifier MyInstance01 \
-		--db-instance-class db.t1.micro \
-		--engine mysql \
-		--allocated-storage 10 \
+		--db-instance-identifier myinstance01 \
+		--db-instance-class db.t2.micro \
+		--engine postgres \
+		--allocated-storage 5 \
 		--master-username master \
 		--master-user-password $(DBPASSWD)
 
 delete-rds-instance: ## Deletes an RDS MySQL DB instance
 	aws rds delete-db-instance \
-		--db-instance-identifier MyInstance01 \
+		--db-instance-identifier myinstance01 \
 		--skip-final-snapshot
 
 db-connect: ## Connects to the RDS instance
-	mysql --user=master --password=$(DBPASSWD) --host myinstance01.cgic5q3lz0bb.us-east-1.rds.amazonaws.com
+	psql --user=master --password=$(DBPASSWD) --host myinstance01.cgic5q3lz0bb.us-east-1.rds.amazonaws.com
 
 create-db: ## Creates a DB with a table and records
 	@echo "Dropping  and creating database"
